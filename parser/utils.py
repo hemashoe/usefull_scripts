@@ -4,9 +4,8 @@ from pathlib import Path
 
 import psycopg2
 from psycopg2 import OperationalError
-from dotenv import load_dotenv
+from decouple import config 
 
-config = load_dotenv("/home/hema/main/Owren/.env")
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 HABR_DIR = os.path.join(BASE_DIR, 'parser/habr_csv/')
@@ -18,11 +17,11 @@ def connect_to_db():
     connection = None
     try:
         connection = psycopg2.connect(
-            database=os.environ.get("DATABASE"),
-            user=os.environ.get("DB_USER"),
-            password=os.environ.get("DB_PASSWORD"),
-            host=os.environ.get("DB_HOST"),
-            port=os.environ.get("DB_PORT"),
+            database=config("DATABASE"),
+            user=config("DB_USER"),
+            password=config("DB_PASSWORD"),
+            host=config("DB_HOST"),
+            port=config("DB_PORT"),
         )
     except OperationalError as e:
         print(f"The error '{e}' occurred")
